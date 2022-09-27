@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,27 @@ public class LoginController {
     @RequestMapping("/delete")
     public String deleteTodo(@RequestParam int id){
         TodoService.deleteTodoById(id);
+        return "redirect:todos";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateTodoPage(@RequestParam int id, ModelMap model){
+        Todo todo = TodoService.findTodoById(id);
+
+        model.put("todo", todo);
+
+        return "updateTodo";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateTodoPage(Todo todo, BindingResult result, ModelMap model){
+
+        if(result.hasErrors()){
+            return "updateTodo";
+        }
+        todo.setUsername((String)model.get("name"));
+        TodoService.updateTodoById(todo);
+
         return "redirect:todos";
     }
 }

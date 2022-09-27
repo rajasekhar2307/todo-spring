@@ -25,4 +25,15 @@ public class TodoService {
         todos.removeIf(predicate);
     }
 
+    public static Todo findTodoById(int id) {
+        Todo filteredTodo = todos.stream().filter(todo -> todo.getId()==id).findAny().orElse(null);
+
+        return filteredTodo;
+    }
+
+    public static void updateTodoById(Todo todo){
+        deleteTodoById(todo.getId());
+        todos.add(todo);
+    }
+
 }
