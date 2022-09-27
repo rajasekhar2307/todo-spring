@@ -56,4 +56,10 @@ public class LoginController {
         TodoService.addNewTodo((String)model.get("name"),todo.getDescription(), LocalDate.now(), false);
         return "redirect:todos";
     }
+
+    @RequestMapping("/delete")
+    public String deleteTodo(@RequestParam int id){
+        TodoService.deleteTodoById(id);
+        return "redirect:todos";
+    }
 }
