@@ -6,13 +6,23 @@
         <link href="webjars\bootstrap\5.1.3\css\bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
+        <nav class="navbar navbar-expand-md navbar-light bg-light mb-3 p-1">
+            <a class="navbar-brand m-1" href="https://courses.in28minutes.com">Todos</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/todos">Todos</a></li>
+                </ul>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            </ul>
+        </nav>
         <div class="container">
             <h2>Here's your list</h2>
             <br>
             <table class="table">
                 <thead>
-                <th>ID</th>
-                <th>USERNAME</th>
                 <th>DESCRIPTION</th>
                 <th>DATE</th>
                 <th>TODO STATUS</th>
@@ -20,8 +30,6 @@
                 <tbody>
                 <c:forEach items="${todos}" var="todo">
                     <tr>
-                        <td>${todo.id}</td>
-                        <td>${todo.username}</td>
                         <td>${todo.description}</td>
                         <td>${todo.date}</td>
                         <td>${todo.isDone}</td>
@@ -32,7 +40,6 @@
                 </tbody>
             </table>
             <a class="btn btn-success" href="add-todo">Add New Todo</a>
-
         </div>
 
 
