@@ -1,6 +1,9 @@
-package com.rajasekhar.app.todo;
+package com.rajasekhar.app.todo.controller;
 
+import com.rajasekhar.app.todo.entity.Todo;
+import com.rajasekhar.app.todo.service.TodoService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,18 +16,22 @@ import java.time.LocalDate;
 
 @Controller
 @SessionAttributes("name")
-public class TodoController {
+public class TodoControllerJpa {
+
+    @Autowired
+    private TodoService todoService;
 
     @RequestMapping("todos")
     public String getAllTodos(ModelMap model) {
-        var todos = TodoService.findByUsername("rajasekhar2307");
+        var todos = todoService.findByUsername((String)model.get("name"));
+        System.out.println("GET ALL TODOS"+ todos);
         model.put("todos", todos);
         return "todos";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String addNewTodoView(ModelMap model){
-        Todo todo = new Todo(0, (String)model.get("name"), "", LocalDate.now(), false);
+        Todo todo = new Todo(0, (String)model.get("name"), "", LocalDate.now(), "false");
         model.put("todo", todo);
         return "addTodo";
     }
@@ -36,19 +43,19 @@ public class TodoController {
             return "addTodo";
         }
 
-        TodoService.addNewTodo((String)model.get("name"),todo.getDescription(), LocalDate.now(), false);
+        todoService.addNewTodo((String)model.get("name"),todo.getDescription(), LocalDate.now(), "false");
         return "redirect:todos";
     }
 
     @RequestMapping("/delete")
     public String deleteTodo(@RequestParam int id){
-        TodoService.deleteTodoById(id);
+        todoService.deleteTodoById(id);
         return "redirect:todos";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String updateTodoPage(@RequestParam int id, ModelMap model){
-        Todo todo = TodoService.findTodoById(id);
+        Todo todo = todoService.findTodoById(id);
 
         model.put("todo", todo);
 
@@ -62,7 +69,7 @@ public class TodoController {
             return "updateTodo";
         }
         todo.setUsername((String)model.get("name"));
-        TodoService.updateTodoById(todo);
+        todoService.updateTodoById(todo);
 
         return "redirect:todos";
     }

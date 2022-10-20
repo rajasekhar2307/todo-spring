@@ -19,7 +19,7 @@
             </ul>
         </nav>
         <div class="container">
-            <h2>Here's your list</h2>
+            <h2>Here's your list</h2> ${todos}
             <br>
             <table class="table">
                 <thead>
